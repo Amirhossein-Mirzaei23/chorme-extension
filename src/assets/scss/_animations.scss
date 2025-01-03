@@ -1,0 +1,28 @@
+
+@mixin fadeIn($duration: 2s, $delay: 0s, $iteration: 1) {
+    animation: fadeInAnimation $duration $delay ease-in-out $iteration;
+    transition: all;
+  }
+  
+  @keyframes fadeInAnimation {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+  
+  .fadeIn-2000 {
+    @include fadeIn(2s, 0s, 1);
+  }
+  .fadeIn-1500 {
+    @include fadeIn(1.5s, 0s, 1);
+  }
+  .fadeIn-1000 {
+    @include fadeIn(1s, 0s, 1);
+  }
+  
+  

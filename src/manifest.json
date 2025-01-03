@@ -1,0 +1,26 @@
+{
+    "manifest_version": 3,
+    "name": "Online Music Player",
+    "version": "1.0",
+    "description": "A Chrome extension to play online music.",
+    "icons": {
+      "16": "public/icons/icon16.png",
+      "48": "public/icons/icon48.png",
+      "128": "public/icons/icon128.png"
+    },
+    "action": {
+      "default_popup": "index.html",
+      "default_icon": "public/icons/icon48.png"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "permissions": ["storage", "tabs"],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ]
+  }
+  
