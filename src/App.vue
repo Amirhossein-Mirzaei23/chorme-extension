@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import playBottomSheet from "./components/player-bottom-sheet.vue";
+import { apiService } from "./core/services/axios.interseptor";
 import axios from "axios";
+
 
 const songsData = ref([
   {
@@ -72,73 +74,117 @@ const PixelAuthorizationKey =
   "m8a0nH7SrLkCt4KZpbKDyoIwehb2OHKjHx1JlXWt4JLR0SFfID4uDVSN";
 
 const JAMENDO_BASE_URL = "https://api.jamendo.com/v3.0";
-const JAMENDO_CLIENT_ID = "1e47cd34";
-async function fetchPopularTracks() {
-  try {
-    const response = await axios.get(`${JAMENDO_BASE_URL}/tracks`, {
-      params: {
-        client_id: JAMENDO_CLIENT_ID, // App key for authentication
-        order: "popularity_total",
-        // redirect_uri: 'http://192.168.93.135:5173/'
-        // format: 'json',       // Response format
-        limit: 10, // Number of tracks to fetch
-      },
-    });
+const JAMENDO_CLIENT_ID = import.meta.env.VITE_JAMENDO_AUTHORIZATION_KEY;
 
-    console.log("Popular Tracks:", response.data.results);
-    songsData.value = response.data.results;
+
+
+const fetchPopularTracks = async (): Promise<any> => {
+  try {
+    const tracksListPayload = {
+      client_id: JAMENDO_CLIENT_ID, // App key for authentication
+      order: "popularity_total",
+      limit: 10,
+    } as any
+
+    const tracksList = await apiService.PopularTracks(tracksListPayload) as any
+    console.log(tracksList);
+
+    songsData.value = tracksList.data.results;
   } catch (error: any) {
     console.error("Error fetching tracks:", error.message);
   }
 }
 fetchPopularTracks();
-
 const fetchRadioStream = async (category: string): Promise<any> => {
+
+  const radiStreamsPayload = {
+    client_id: JAMENDO_CLIENT_ID, // App key for authentication
+    name: category,
+    limit: 10, // Number of tracks to fetch
+  }
+
   try {
-    const response = await axios.get(`${JAMENDO_BASE_URL}/radios/stream`, {
-      params: {
-        client_id: JAMENDO_CLIENT_ID, // App key for authentication
-
-        name: category,
-
-        // redirect_uri: 'http://192.168.93.135:5173/'
-        // format: 'json',       // Response format
-        limit: 10, // Number of tracks to fetch
-      },
-    })
-
-    playerSourceData.value = response.data.results;
+    const radioStreamsList = await apiService.radioStreams(radiStreamsPayload)
+    playerSourceData.value = radioStreamsList.data.results;
   } catch (error) {
     console.log(error);
-
   }
 }
 fetchRadioStream('pop')
 
-const fetchBackGroundImage = async () => {
+const fetchBackGroundImage = async (): Promise<any> => {
   try {
-    const response = await axios.get(`${PIXEL_BASE_USRL}/search?query=people`, {
-      headers: {
-        Authorization: PixelAuthorizationKey,
-      },
-      params: {
-        // App key for authentication
-        // redirect_uri: 'http://192.168.93.135:5173/'
-        // format: 'json',       // Response format
-        limit: 10, // Number of tracks to fetch
-      },
-    });
+    const payload = {
+      query: 'people',
+      headers: { Authorization: PixelAuthorizationKey },
+      params: { limit: 10 }
+    }
+
+    const backGroundImages = await apiService.backgroundImages(payload)
+    console.log(backGroundImages);
+
   } catch (error: any) {
     console.log(error);
   }
 };
 fetchBackGroundImage();
 
-
-
-
-
 const index = ref<number>(0);
+
+
+
+
+
+
+// async function fetchPopularTracks() {
+//   try {
+// const response = await axios.get(`${JAMENDO_BASE_URL}/tracks`, {
+//   params: {
+//     client_id: import.meta.env.JAMENDO_Authorization_Key, // App key for authentication
+//     order: "popularity_total",
+//     // redirect_uri: 'http://192.168.93.135:5173/'
+//     // format: 'json',       // Response format
+//     limit: 10, // Number of tracks to fetch
+//   },
+// });
+
+
+
+//     fetchPopularTracks();
+// const fetchRadioStream = async (category: string): Promise<any> => {
+//   const radiStreamsPayload = {
+//         client_id: JAMENDO_CLIENT_ID, // App key for authentication
+//         name: category,
+//         limit: 10, // Number of tracks to fetch
+//       }
+//   try {
+//     const response = await axios.get(`${JAMENDO_BASE_URL}/radios/stream`, {
+//       params: {
+//         client_id: JAMENDO_CLIENT_ID, // App key for authentication
+//         name: category,
+//         limit: 10, // Number of tracks to fetch
+//       },
+//     })
+
+
+
+
+
+
+
+
+// const response = await axios.get(`${PIXEL_BASE_USRL}/search?query=people` ,{
+//       headers: {
+//         Authorization: PixelAuthorizationKey,
+//       },
+//       params: {
+//         // App key for authentication
+//         // redirect_uri: 'http://192.168.93.135:5173/'
+//         // format: 'json',       // Response format
+//         limit: 10, // Number of tracks to fetch
+//       },
+//     });
+
 </script>
 
 <template>
