@@ -130,61 +130,6 @@ const fetchBackGroundImage = async (): Promise<any> => {
 fetchBackGroundImage();
 
 const index = ref<number>(0);
-
-
-
-
-
-
-// async function fetchPopularTracks() {
-//   try {
-// const response = await axios.get(`${JAMENDO_BASE_URL}/tracks`, {
-//   params: {
-//     client_id: import.meta.env.JAMENDO_Authorization_Key, // App key for authentication
-//     order: "popularity_total",
-//     // redirect_uri: 'http://192.168.93.135:5173/'
-//     // format: 'json',       // Response format
-//     limit: 10, // Number of tracks to fetch
-//   },
-// });
-
-
-
-//     fetchPopularTracks();
-// const fetchRadioStream = async (category: string): Promise<any> => {
-//   const radiStreamsPayload = {
-//         client_id: JAMENDO_CLIENT_ID, // App key for authentication
-//         name: category,
-//         limit: 10, // Number of tracks to fetch
-//       }
-//   try {
-//     const response = await axios.get(`${JAMENDO_BASE_URL}/radios/stream`, {
-//       params: {
-//         client_id: JAMENDO_CLIENT_ID, // App key for authentication
-//         name: category,
-//         limit: 10, // Number of tracks to fetch
-//       },
-//     })
-
-
-
-
-
-
-
-
-// const response = await axios.get(`${PIXEL_BASE_USRL}/search?query=people` ,{
-//       headers: {
-//         Authorization: PixelAuthorizationKey,
-//       },
-//       params: {
-//         // App key for authentication
-//         // redirect_uri: 'http://192.168.93.135:5173/'
-//         // format: 'json',       // Response format
-//         limit: 10, // Number of tracks to fetch
-//       },
-//     });
-
 </script>
 
 <template>
