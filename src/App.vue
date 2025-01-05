@@ -4,7 +4,6 @@ import playBottomSheet from "./components/player-bottom-sheet.vue";
 import { apiService } from "./core/services/axios.interseptor";
 import axios from "axios";
 
-
 const songsData = ref([
   {
     id: "168",
@@ -48,26 +47,33 @@ const previosMusic = (): void => {
   }
 };
 
-
-const playerSourceData = ref([{
-  callmeback: "",
-  dispname: "Rock Radio",
-  id: 3,
-  image: "https://images.jamendo.com/new_jamendo_radios/rock150.jpg",
-  name: "rock",
-  playingnow: {
-    track_id: 0, artist_id: 0, album_id: 0, album_name: "", track_name: "", track_image: "", artist_name
-      :
-      ""
+const playerSourceData = ref([
+  {
+    callmeback: "",
+    dispname: "Rock Radio",
+    id: 3,
+    image: "https://images.jamendo.com/new_jamendo_radios/rock150.jpg",
+    name: "rock",
+    playingnow: {
+      track_id: 0,
+      artist_id: 0,
+      album_id: 0,
+      album_name: "",
+      track_name: "",
+      track_image: "",
+      artist_name: "",
+    },
+    album_id: 0,
+    album_name: "",
+    artist_id: 0,
+    artist_name: "",
+    track_id: 0,
+    track_image: "",
+    track_name: "",
+    stream: "https://streaming.jamendo.com/JamRock",
+    type: "www",
   },
-  album_id: 0,
-  album_name: "",
-  artist_id: 0,
-  artist_name: "", track_id: 0,
-  track_image: "",
-  track_name: "", stream: "https://streaming.jamendo.com/JamRock",
-  type: "www"
-}])
+]);
 //search?query=people
 const PIXEL_BASE_USRL = "https://api.pexels.com/v1/";
 const PixelAuthorizationKey =
@@ -76,53 +82,51 @@ const PixelAuthorizationKey =
 const JAMENDO_BASE_URL = "https://api.jamendo.com/v3.0";
 const JAMENDO_CLIENT_ID = import.meta.env.VITE_JAMENDO_AUTHORIZATION_KEY;
 
-
-
 const fetchPopularTracks = async (): Promise<any> => {
   try {
     const tracksListPayload = {
       client_id: JAMENDO_CLIENT_ID, // App key for authentication
       order: "popularity_total",
       limit: 10,
-    } as any
+    } as any;
 
-    const tracksList = await apiService.PopularTracks(tracksListPayload) as any
+    const tracksList = (await apiService.PopularTracks(
+      tracksListPayload
+    )) as any;
     console.log(tracksList);
 
     songsData.value = tracksList.data.results;
   } catch (error: any) {
     console.error("Error fetching tracks:", error.message);
   }
-}
+};
 fetchPopularTracks();
 const fetchRadioStream = async (category: string): Promise<any> => {
-
   const radiStreamsPayload = {
     client_id: JAMENDO_CLIENT_ID, // App key for authentication
     name: category,
     limit: 10, // Number of tracks to fetch
-  }
+  };
 
   try {
-    const radioStreamsList = await apiService.radioStreams(radiStreamsPayload)
+    const radioStreamsList = await apiService.radioStreams(radiStreamsPayload);
     playerSourceData.value = radioStreamsList.data.results;
   } catch (error) {
     console.log(error);
   }
-}
-fetchRadioStream('pop')
+};
+fetchRadioStream("pop");
 
 const fetchBackGroundImage = async (): Promise<any> => {
   try {
     const payload = {
-      query: 'people',
+      query: "people",
       headers: { Authorization: PixelAuthorizationKey },
-      params: { limit: 10 }
-    }
+      params: { limit: 10 },
+    };
 
-    const backGroundImages = await apiService.backgroundImages(payload)
+    const backGroundImages = await apiService.backgroundImages(payload);
     console.log(backGroundImages);
-
   } catch (error: any) {
     console.log(error);
   }
@@ -134,7 +138,11 @@ const index = ref<number>(0);
 
 <template>
   <div>
-    <playBottomSheet @next="nextMusic" @previos="previosMusic" :audioDetail="songsData[index]"></playBottomSheet>
+    <playBottomSheet
+      @next="nextMusic"
+      @previos="previosMusic"
+      :audioDetail="songsData[index]"
+    ></playBottomSheet>
   </div>
 </template>
 
