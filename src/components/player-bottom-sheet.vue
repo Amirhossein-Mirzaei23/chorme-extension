@@ -28,20 +28,19 @@
             <v-btn @click="nextMusic" class="ms-0" variant="text">
               <v-icon>mdi-fast-forward</v-icon>
             </v-btn>
-            
+
             <v-btn @click="openList" class="ms-0" variant="text">
               <v-icon>mdi-chevron-double-up</v-icon>
             </v-btn>
           </template>
         </v-list-item>
       </v-list>
-      <v-list v-if="openListHandler" class="d-flex flex-column align-center" >
-     
-      <v-list-item v-for="(item,index) in audioList " :key="index" class="" >
-        <div class="d-flex align-center" >
-          <span>{{ item.name }}</span>
-        </div>
-      </v-list-item>
+      <v-list v-if="openListHandler" class="d-flex flex-column align-center">
+        <v-list-item v-for="(item, index) in audioList" :key="index" class="">
+          <div class="d-flex align-center">
+            <span>{{ item.name }}</span>
+          </div>
+        </v-list-item>
       </v-list>
     </v-sheet>
   </v-bottom-sheet>
@@ -50,15 +49,15 @@
 import { computed, ref } from "vue";
 
 const isOpen = ref(true);
-const props = defineProps(["audioDetail",'audioList']);
+const props = defineProps(["audioDetail", "audioList"]);
 const emits = defineEmits(["next", "previos"]);
 const musicProgress = ref(0);
 const isPlayed = ref<boolean>(false);
 const audioPlayerRef = ref<HTMLAudioElement>();
-const openListHandler = ref<boolean>(false)
-const openList = ()=>{
-  openListHandler.value = !openListHandler.value
-}
+const openListHandler = ref<boolean>(false);
+const openList = () => {
+  openListHandler.value = !openListHandler.value;
+};
 
 const nextMusic = (): void => {
   emits("next");
