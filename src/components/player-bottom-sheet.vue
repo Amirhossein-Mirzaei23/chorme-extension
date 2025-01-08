@@ -29,8 +29,9 @@
               <v-icon>mdi-fast-forward</v-icon>
             </v-btn>
 
-            <v-btn @click="openList" class="ms-0" variant="text">
-              <v-icon>mdi-chevron-double-up</v-icon>
+            <v-btn  @click="openList" class="ms-0" variant="text">
+              <v-icon v-if="!openListHandler" >mdi-chevron-double-up</v-icon>
+              <v-icon v-else >mdi-chevron-down</v-icon>
             </v-btn>
           </template>
         </v-list-item>
