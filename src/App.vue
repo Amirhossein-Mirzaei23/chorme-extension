@@ -142,6 +142,7 @@ const index = ref<number>(0);
       @next="nextMusic"
       @previos="previosMusic"
       :audioDetail="songsData[index]"
+      :audioList="songsData"
     ></playBottomSheet>
   </div>
 </template>
