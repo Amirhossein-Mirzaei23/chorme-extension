@@ -32,20 +32,7 @@ const songsData = ref([
   },
 ]);
 
-const nextMusic = (): void => {
-  if (songsData.value.length - 1 <= index.value) {
-    index.value = 0;
-  } else {
-    index.value++;
-  }
-};
-const previosMusic = (): void => {
-  if (index.value == 0) {
-    index.value = songsData.value.length - 1;
-  } else {
-    index.value--;
-  }
-};
+
 
 const playerSourceData = ref([
   {
@@ -80,27 +67,9 @@ const PixelAuthorizationKey =
   "m8a0nH7SrLkCt4KZpbKDyoIwehb2OHKjHx1JlXWt4JLR0SFfID4uDVSN";
 
 const JAMENDO_BASE_URL = "https://api.jamendo.com/v3.0";
+
+
 const JAMENDO_CLIENT_ID = import.meta.env.VITE_JAMENDO_AUTHORIZATION_KEY;
-
-const fetchPopularTracks = async (): Promise<any> => {
-  try {
-    const tracksListPayload = {
-      client_id: JAMENDO_CLIENT_ID, // App key for authentication
-      order: "popularity_total",
-      limit: 10,
-    } as any;
-
-    const tracksList = (await apiService.PopularTracks(
-      tracksListPayload
-    )) as any;
-    console.log(tracksList);
-
-    songsData.value = tracksList.data.results;
-  } catch (error: any) {
-    console.error("Error fetching tracks:", error.message);
-  }
-};
-fetchPopularTracks();
 const fetchRadioStream = async (category: string): Promise<any> => {
   const radiStreamsPayload = {
     client_id: JAMENDO_CLIENT_ID, // App key for authentication
@@ -139,10 +108,6 @@ const index = ref<number>(0);
 <template>
   <div>
     <playBottomSheet
-      @next="nextMusic"
-      @previos="previosMusic"
-      :audioDetail="songsData[index]"
-      :audioList="songsData"
     ></playBottomSheet>
   </div>
 </template>
