@@ -1,8 +1,9 @@
 <template>
-  <v-bottom-sheet v-model="isOpen" inset>
-    <audio ref="audioPlayerRef" :src="audioDetail.audio"></audio>
-    <v-sheet>
-      <v-progress-linear
+  <v-bottom-sheet :persistent="true" v-model="isOpen" inset>
+    <audio ref="audioPlayerRef" :src="audioSource"></audio>
+    <v-sheet  >
+   
+    <v-progress-linear
         :clickable="true"
         @update:modelValue="updateCurrentTime"
         :model-value="musicProgress"
@@ -12,7 +13,7 @@
           <v-list-item-title></v-list-item-title>
 
           <v-list-item-subtitle
-            >{{ audioDetail.name }} - {{  Math.floor(audioPlayerRef?.currentTime) }}</v-list-item-subtitle
+            >{{ audioName }} - {{  Math.floor(audioPlayerRef?.currentTime) }}</v-list-item-subtitle
           >
 
           <template v-slot:append>
@@ -36,22 +37,25 @@
           </template>
         </v-list-item>
       </v-list>
-      <v-list v-if="openListHandler" class="d-flex flex-column align-center">
+  
+      <v-list v-if="openListHandler" class="d-flex flex-column align-center h-500px">
         <v-list-item
           v-for="(item, index) in audioList"
           :key="index"
           class="w-100 cursor-pointer"
         >
           <v-btn
-            @click="console.log(item)"
+            @click="selectSong(item)"
             variant="text"
             class="d-flex justify-space-between align-center w-100 rounded-lg"
           >
-            <div>
+<div class="w-100 d-flex justify-space-between align-center " >
+  <div class="w-100 d-flex flex-column justify-space-between align-start " >
               <span>{{ item.name }}</span>
-              <span>{{ item.artist_name }}</span>
+              <span class="fs-6" >{{ item.artist_name }}</span>
             </div>
             <div>{{ duration(item.duration) }}</div>
+</div>
           </v-btn>
         </v-list-item>
       </v-list>
@@ -92,20 +96,28 @@ const audioDetail = ref(
       "https://usercontent.jamendo.com?type=album&id=24&width=300&trackid=168",
   },
 );
-
-
+const audioSource = ref(audioDetail.value.audio)
+const audioName = ref<string>()
 const isPlayed = ref<boolean>(false);
 const audioPlayerRef = ref<HTMLAudioElement>();
 const openListHandler = ref<boolean>(false);
-  const musicProgress = ref<number>()
-
-
-
-
+const musicProgress = ref<number>()
 const index = ref<number>(0);
+audioName.value = audioDetail.value.name
 const openList = () => {
   openListHandler.value = !openListHandler.value;
 };
+
+const loadAudioSource = (src:string)=>{
+  audioSource.value = src
+  audioPlayerRef.value?.load();
+  setTimeout(() => {
+    playMusic();
+  }, 500);
+}
+const loadAudioName = (name:string)=>{
+  audioName.value = name
+}
 
 const nextMusic = (): void => {
   if (audioList.value.length - 1 <= index.value) {
@@ -113,12 +125,10 @@ const nextMusic = (): void => {
   } else {
     index.value++;
   }
+  loadAudioSource(audioList.value[index.value].audio)
+  loadAudioName(audioList.value[index.value].name)
+ 
 
-  console.log("next music");
-  audioPlayerRef.value?.load();
-  setTimeout(() => {
-    playMusic();
-  }, 1000);
 };
 const previousMusic = (): void => {
   if (index.value == 0) {
@@ -126,18 +136,13 @@ const previousMusic = (): void => {
   } else {
     index.value--;
   }
-
-  audioPlayerRef.value?.load();
-  playMusic();
+  loadAudioSource(audioList.value[index.value].audio)
+  loadAudioName(audioList.value[index.value].name)
 };
 const playMusic = (): void => {
-  console.log("played");
-
   audioPlayerRef.value
     ?.play()
     .then((e) => {
-      console.log("then");
-      // console.log(e);
       isPlayed.value = true;
     })
     .catch((e) => {
@@ -170,13 +175,21 @@ const updateCurrentTime = (time: number) => {
 
 };
 
+
+const selectSong = (item)=>{
+  loadAudioSource(item.audio)
+  loadAudioName(item.name)
+}
+
+
+
 const fetchPopularTracks = async (): Promise<any> => {
   const JAMENDO_CLIENT_ID = import.meta.env.VITE_JAMENDO_AUTHORIZATION_KEY;
   try {
     const tracksListPayload = {
       client_id: JAMENDO_CLIENT_ID, // App key for authentication
       order: "popularity_total",
-      limit: 10,
+      limit: 20,
     } as any;
 
     const tracksList = (await apiService.PopularTracks(
@@ -205,4 +218,15 @@ onMounted(()=>{
 // Function to fetch popular tracks
 //https://api.jamendo.com/v3.0/oauth/authorize
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.v-btn__content){
+  width: 100% !important;
+}
+.fs-6 {
+  font-size: 11px;
+}
+.h-500px{
+  height: 500px;
+  overflow-y: scroll;
+}
+</style>
