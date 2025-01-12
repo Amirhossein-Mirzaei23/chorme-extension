@@ -107,7 +107,7 @@ const openListHandler = ref<boolean>(false);
 const musicProgress = ref<number>();
 const index = ref<number>(0);
 audioName.value = audioDetail.value.name;
-const openList = () => {
+const openList = () :void  => {
   openListHandler.value = !openListHandler.value;
 };
 
@@ -118,7 +118,7 @@ const loadAudioSource = (src: string) => {
     playMusic();
   }, 500);
 };
-const loadAudioName = (name: string) => {
+const loadAudioName = (name: string) :void => {
   audioName.value = name;
 };
 
@@ -168,12 +168,12 @@ const playPauseMusic = () => {
   }
 };
 
-const updateCurrentTime = (time: number) => {
+const updateCurrentTime = (time: number) :void  => {
   audioPlayerRef.value.currentTime =
     audioPlayerRef.value.duration * (time / 100);
 };
 
-const selectSong = (item) => {
+const selectSong = (item:any) :void  => {
   loadAudioSource(item.audio);
   loadAudioName(item.name);
 };
