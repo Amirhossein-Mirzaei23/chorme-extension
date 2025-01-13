@@ -182,7 +182,7 @@ const fetchPopularTracks = async (): Promise<any> => {
   const JAMENDO_CLIENT_ID = import.meta.env.VITE_JAMENDO_AUTHORIZATION_KEY;
   try {
     const tracksListPayload = {
-      client_id: JAMENDO_CLIENT_ID, // App key for authentication
+      client_id: JAMENDO_CLIENT_ID, 
       order: "popularity_total",
       limit: 20,
     } as any;
@@ -205,8 +205,6 @@ onMounted(() => {
   });
 });
 
-// Function to fetch popular tracks
-//https://api.jamendo.com/v3.0/oauth/authorize
 </script>
 <style lang="scss" scoped>
 :deep(.v-btn__content) {
