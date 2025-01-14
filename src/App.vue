@@ -102,6 +102,48 @@ const fetchBackGroundImage = async (): Promise<any> => {
 };
 fetchBackGroundImage();
 
+const cityName = ref('tehran')
+const getWeatherData = ()=>{
+    
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName.value}&appid=6bc9aef977cba03d9e296cb75c99fed0&units=metric`,{
+       method:"GET"
+   }).then(res=>res.json())
+   .then(data=>{
+       console.log(data);
+      //  dateElem.innerHTML=`${days[date.getDay()]} ${date.getDay()} ${months[date.getMonth()]} ${date.getFullYear()}`
+      //  citynameElem.innerHTML=`${data.name},${data.sys.country}`
+      //  cityweather.innerHTML=`${data.weather[0].main}`
+      //  feeltemp.innerHTML=`${data.main.feels_like}`
+      //  citytemp.innerHTML=`${data.main.temp}°c`
+      //  cityhiLow.innerHTML=`${Math.round(data.main.temp_max)}°c/${Math.round(data.main.temp_min)}°c`
+      //  cityInputElem.value=""
+   }).catch(()=>{
+       alert("city is not found")
+      //  cityInputElem.value=""
+   })
+}
+getWeatherData()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const index = ref<number>(0);
 </script>
 
