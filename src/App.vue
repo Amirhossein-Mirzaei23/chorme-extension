@@ -116,9 +116,10 @@ const getWeatherData = async ()=>{
       //  cityhiLow.innerHTML=`${Math.round(data.main.temp_max)}°c/${Math.round(data.main.temp_min)}°c`
       //  cityInputElem.value=""
 
-    console.log(weatherData);
+    console.log('weatherData:',weatherData);
 
 }
+debugger
 getWeatherData()
 
 

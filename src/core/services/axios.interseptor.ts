@@ -28,11 +28,9 @@ class ApiService {
 
 
   weatherDataByCity(payload:any) {
+    console.log(payload,'weatherDataByCity');
+    
     return axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${payload.cityName}&appid=6bc9aef977cba03d9e296cb75c99fed0&units=metric`, {
-      headers: {
-        Authorization: payload.headers.Authorization,
-      },
-      params: payload.params,
     });
   }
 }
