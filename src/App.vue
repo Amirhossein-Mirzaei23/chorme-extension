@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import playBottomSheet from "./components/player-bottom-sheet.vue";
+import weatherBox from "./components/weather-box.vue";
 import { apiService } from "./core/services/axios.interseptor";
 import axios from "axios";
 
@@ -101,55 +102,19 @@ const fetchBackGroundImage = async (): Promise<any> => {
   }
 };
 fetchBackGroundImage();
-
-const cityName = ref('tehran')
-const getWeatherData = async ()=>{
-    const weatherData = await apiService.weatherDataByCity(
-        {cityName:cityName.value}
-    ) as any;
-
-      //  dateElem.innerHTML=`${days[date.getDay()]} ${date.getDay()} ${months[date.getMonth()]} ${date.getFullYear()}`
-      //  citynameElem.innerHTML=`${data.name},${data.sys.country}`
-      //  cityweather.innerHTML=`${data.weather[0].main}`
-      //  feeltemp.innerHTML=`${data.main.feels_like}`
-      //  citytemp.innerHTML=`${data.main.temp}°c`
-      //  cityhiLow.innerHTML=`${Math.round(data.main.temp_max)}°c/${Math.round(data.main.temp_min)}°c`
-      //  cityInputElem.value=""
-
-    console.log('weatherData:',weatherData);
-
-}
-debugger
-getWeatherData()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const index = ref<number>(0);
 </script>
 
 <template>
-  <div>
+
+<div class="d-flex" >
+  <weatherBox class="bg-primary" ></weatherBox>
     <playBottomSheet
     ></playBottomSheet>
-  </div>
+</div>
+ 
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
