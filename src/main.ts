@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import "./style.css";
+import './assets/scss/_global.scss'
 import App from "./App.vue";
 
 import "@mdi/font/css/materialdesignicons.css";
@@ -10,6 +11,7 @@ import * as directives from "vuetify/directives";
 
 // Vuetify instance
 const vuetify = createVuetify({
+ 
   components,
   directives,
 });
