@@ -17,6 +17,16 @@
           >
 
           <template v-slot:append>
+            <div class="volume-container" >
+              <v-icon size="xs" v-if="soundVolume > 70" >mdi-volume-high</v-icon>
+              <v-icon size="xs" v-else-if="soundVolume > 30" >mdi-volume-medium</v-icon>
+              <v-icon size="xs" v-else >mdi-volume-low</v-icon>    
+              <v-progress-linear
+                :clickable="true"
+                @update:modelValue="updateSoundVolume"
+                :model-value="soundVolume"
+              ></v-progress-linear>
+            </div>
             <v-btn @click="previousMusic" variant="text">
               <v-icon>mdi-rewind</v-icon>
             </v-btn>
@@ -75,6 +85,8 @@ import { apiService } from "../core/services/axios.interseptor";
 const isOpen = ref(true);
 
 const audioList = ref<any>([]);
+const soundVolume = ref<number>(100);
+
 const audioDetail = ref({
   id: "168",
   name: "J'm'e FPM",
@@ -107,7 +119,7 @@ const openListHandler = ref<boolean>(false);
 const musicProgress = ref<number>();
 const index = ref<number>(0);
 audioName.value = audioDetail.value.name;
-const openList = () :void  => {
+const openList = (): void => {
   openListHandler.value = !openListHandler.value;
 };
 
@@ -118,7 +130,7 @@ const loadAudioSource = (src: string) => {
     playMusic();
   }, 500);
 };
-const loadAudioName = (name: string) :void => {
+const loadAudioName = (name: string): void => {
   audioName.value = name;
 };
 
@@ -168,12 +180,20 @@ const playPauseMusic = () => {
   }
 };
 
-const updateCurrentTime = (time: number) :void  => {
+const updateCurrentTime = (time: number): void => {
+  console.log(time,  audioPlayerRef.value.duration * (time / 100));
+  musicProgress.value = time
   audioPlayerRef.value.currentTime =
     audioPlayerRef.value.duration * (time / 100);
 };
 
-const selectSong = (item:any) :void  => {
+const updateSoundVolume = (newVolume: number): void => {
+  console.log(newVolume);
+  audioPlayerRef.value.volume = newVolume/100
+  soundVolume.value = newVolume;
+};
+
+const selectSong = (item: any): void => {
   loadAudioSource(item.audio);
   loadAudioName(item.name);
 };
@@ -182,7 +202,7 @@ const fetchPopularTracks = async (): Promise<any> => {
   const JAMENDO_CLIENT_ID = import.meta.env.VITE_JAMENDO_AUTHORIZATION_KEY;
   try {
     const tracksListPayload = {
-      client_id: JAMENDO_CLIENT_ID, 
+      client_id: JAMENDO_CLIENT_ID,
       order: "popularity_total",
       limit: 20,
     } as any;
@@ -199,12 +219,6 @@ const fetchPopularTracks = async (): Promise<any> => {
 };
 fetchPopularTracks();
 
-onMounted(() => {
-  audioPlayerRef.value?.addEventListener("timeupdate", () => {
-    musicProgress.value = audioPlayerRef.value?.currentTime;
-  });
-});
-
 </script>
 <style lang="scss" scoped>
 :deep(.v-btn__content) {
@@ -216,5 +230,12 @@ onMounted(() => {
 .h-500px {
   height: 500px;
   overflow-y: scroll;
+}
+.volume-container {
+  width: 70px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
 }
 </style>

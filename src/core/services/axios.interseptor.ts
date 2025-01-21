@@ -16,13 +16,21 @@ class ApiService {
   }
 
   backgroundImages(payload: any) {
-    console.log();
+   
 
     return axios.get(`${this.PixelBaseUrl}/search?query=${payload.query}`, {
       headers: {
         Authorization: payload.headers.Authorization,
       },
       params: payload.params,
+    });
+  }
+
+
+  weatherDataByCity(payload:any) {
+    console.log(payload,'weatherDataByCity');
+    
+    return axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${payload.cityName}&appid=6bc9aef977cba03d9e296cb75c99fed0&units=metric`, {
     });
   }
 }
