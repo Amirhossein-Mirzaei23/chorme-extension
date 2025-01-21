@@ -1,0 +1,1 @@
+{"root":["./vite.config.ts","./src/app.vue","./src/background.js","./src/content.js","./src/main.ts","./src/vite-env.d.ts","./src/combosable/duration.ts","./src/components/helloworld.vue","./src/components/player-bottom-sheet.vue","./src/components/weather-box.vue","./src/core/services/axios.interseptor.ts"],"errors":true,"version":"5.6.3"}
