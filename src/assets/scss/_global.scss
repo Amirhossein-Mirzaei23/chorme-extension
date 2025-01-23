@@ -1,34 +1,49 @@
 @use "./fonts.scss";
 @use "./animations";
 
+body {
+  direction: rtl !important;
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
 
-  
-  body {
-    direction: rtl !important;
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
+#app {
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fcfcfc;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
   }
-  
-  #app {
-    margin: 0 auto;
-   width: 100vw;
-   height: 100vh;
-    text-align: center;
+  a:hover {
+    color: #747bff;
   }
-  
-  @media (prefers-color-scheme: light) {
-    :root {
-      color: #213547;
-      background-color: #ffffff;
-    }
-    a:hover {
-      color: #747bff;
-    }
-    button {
-      background-color: #f9f9f9;
-    }
+  button {
+    background-color: #f9f9f9;
   }
-  
+}

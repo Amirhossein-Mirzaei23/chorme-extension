@@ -33,8 +33,6 @@ const songsData = ref([
   },
 ]);
 
-
-
 const playerSourceData = ref([
   {
     callmeback: "",
@@ -68,7 +66,6 @@ const PixelAuthorizationKey =
   "m8a0nH7SrLkCt4KZpbKDyoIwehb2OHKjHx1JlXWt4JLR0SFfID4uDVSN";
 
 const JAMENDO_BASE_URL = "https://api.jamendo.com/v3.0";
-
 
 const JAMENDO_CLIENT_ID = import.meta.env.VITE_JAMENDO_AUTHORIZATION_KEY;
 const fetchRadioStream = async (category: string): Promise<any> => {
@@ -106,15 +103,10 @@ const index = ref<number>(0);
 </script>
 
 <template>
-
-<div class="d-flex" >
-  <weatherBox class="bg-primary" ></weatherBox>
-    <playBottomSheet
-    ></playBottomSheet>
-</div>
- 
+  <div class="d-flex">
+    <weatherBox class="bg-primary"></weatherBox>
+    <playBottomSheet></playBottomSheet>
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
